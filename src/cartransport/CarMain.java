@@ -3,53 +3,59 @@ package cartransport;
 import java.util.Scanner;
 
 public class CarMain {
-    public static void main(String[] args) {
-        Scanner sc  = new Scanner(System.in);
-        int distance; // 거리
-        int passengerCount; // 승객수
-        Car car;
-        double weatherRate; // 날씨
 
-        // 1. 지역 선택 메뉴
-        while (true){
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int distance = selectCity(sc);
+        int passengerCount = inputPassengerCount(sc);
+        Car car = selectCar(sc);
+
+        selectMode(sc, car);
+
+        double weatherRate = selectWeather(sc);
+
+        printResult(car, passengerCount, distance, weatherRate);
+    }
+
+    // 1. 지역 선택
+    public static int selectCity(Scanner sc) {
+        while (true) {
             System.out.print("이동할 지역 선택 [1]부산 [2]대전 [3]강릉 [4]광주 : ");
-            String moveCityStr =  sc.nextLine();
+            String moveCityStr = sc.nextLine();
 
             try {
                 int moveCity = Integer.parseInt(moveCityStr);
 
                 switch (moveCity) {
                     case 1:
-                        distance = 400;
-                        break;
+                        return 400;
                     case 2:
-                        distance = 150;
-                        break;
+                        return 150;
                     case 3:
-                        distance = 200;
-                        break;
+                        return 200;
                     case 4:
-                        distance = 300;
-                        break;
+                        return 300;
                     default:
                         System.out.println("잘못 입력하셨습니다.");
-                        continue;
                 }
-                break;
-            }catch (NumberFormatException e){
+
+            } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력해 주세요.");
             }
         }
+    }
 
-        // 승객수 입력
+    // 2. 승객 수 입력
+    public static int inputPassengerCount(Scanner sc) {
         while (true) {
             System.out.print("이동할 승객 수 입력 : ");
             String passengerCountStr = sc.nextLine();
 
             try {
-                passengerCount = Integer.parseInt(passengerCountStr);
+                int passengerCount = Integer.parseInt(passengerCountStr);
 
-                if  (passengerCount < 1) {
+                if (passengerCount < 1) {
                     System.out.println("1명 이상 입력해주세요.");
                     continue;
                 }
@@ -59,93 +65,94 @@ public class CarMain {
                     continue;
                 }
 
-                break;
+                return passengerCount;
 
             } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력해주세요.");
             }
         }
+    }
 
-        // 이동할 차량 선택
-        while(true) {
-            System.out.print("이동할 차량 선택 [1]스포츠카 [2]승용차 [3]버스 :");
+    // 3. 이동할 차량 선택
+    public static Car selectCar(Scanner sc) {
+        while (true) {
+            System.out.print("이동할 차량 선택 [1]스포츠카 [2]승용차 [3]버스 : ");
             String carStr = sc.nextLine();
 
             try {
-                int carNum =  Integer.parseInt(carStr);
+                int carNum = Integer.parseInt(carStr);
 
                 switch (carNum) {
                     case 1:
-                        car = new SportsCar("포르쉐");
-                        break;
+                        return new SportsCar("포르쉐");
                     case 2:
-                        car = new Sedan("소나타");
-                        break;
+                        return new Sedan("소나타");
                     case 3:
-                        car = new Bus("버스");
-                        break;
+                        return new Bus("버스");
                     default:
                         System.out.println("잘못 입력하셨습니다.");
-                        continue;
                 }
-                break;
-            } catch (NumberFormatException e){
+
+            } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력하세요.");
             }
         }
+    }
 
-        // 부가 기능
+    // 4. 부가 기능 설정
+    public static void selectMode(Scanner sc, Car car) {
         while (true) {
             System.out.print("부가 기능 [1]ON [2]OFF : ");
             String isOnStr = sc.nextLine();
+
             try {
                 int isOn = Integer.parseInt(isOnStr);
 
                 switch (isOn) {
                     case 1:
                         car.setMode(true);
-                        break;
+                        return;
                     case 2:
                         car.setMode(false);
-                        break;
+                        return;
                     default:
                         System.out.println("잘못 입력하셨습니다.");
-                        continue;
                 }
-                break;
-            }catch (NumberFormatException e){
+
+            } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력해주세요.");
             }
         }
+    }
 
-        // 날씨
-        while(true) {
+    // 5. 날씨 선택
+    public static double selectWeather(Scanner sc) {
+        while (true) {
             System.out.print("날씨 [1]맑음 [2]비 [3]눈 : ");
             String weatherStr = sc.nextLine();
+
             try {
                 int weather = Integer.parseInt(weatherStr);
 
                 switch (weather) {
                     case 1:
-                        weatherRate = 1.0;
-                        break;
+                        return 1.0;
                     case 2:
-                        weatherRate = 1.2;
-                        break;
+                        return 1.2;
                     case 3:
-                        weatherRate = 1.4;
-                        break;
+                        return 1.4;
                     default:
                         System.out.println("잘못 입력하셨습니다.");
-                        continue;
-
                 }
-                break;
-            }catch (NumberFormatException e){
+
+            } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력해주세요.");
             }
         }
+    }
 
+    // 결과 출력
+    public static void printResult(Car car, int passengerCount, int distance, double weatherRate) {
         double totalCost = car.calculateTotalCost(passengerCount, distance);
         int refuelCount = car.calculateRefuelCount(passengerCount, distance);
         double totalTime = car.calculateTotalTime(passengerCount, distance, weatherRate);
