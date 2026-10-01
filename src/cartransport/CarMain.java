@@ -156,7 +156,6 @@ public class CarMain {
     }
 
     // 6. 에어컨 ON/OFF
-// 6. 에어컨 ON/OFF
     public static void selectAircon(Scanner sc, Car car) {
 
         if (car instanceof Aircon) {
@@ -188,7 +187,6 @@ public class CarMain {
     }
 
     // 7. 오디오 ON/OFF
-// 7. 오디오 ON/OFF
     public static void selectAudio(Scanner sc, Car car) {
 
         if (car instanceof Audio) {
