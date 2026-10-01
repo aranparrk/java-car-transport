@@ -15,6 +15,10 @@ public class CarMain {
 
         double weatherRate = selectWeather(sc);
 
+        selectAircon(sc, car);
+        selectAudio(sc, car);
+        selectAutoPilot(sc, car);
+
         printResult(car, passengerCount, distance, weatherRate);
     }
 
@@ -151,6 +155,103 @@ public class CarMain {
         }
     }
 
+    // 6. 에어컨 ON/OFF
+// 6. 에어컨 ON/OFF
+    public static void selectAircon(Scanner sc, Car car) {
+
+        if (car instanceof Aircon) {
+            while (true) {
+                System.out.print(car.name + " 에어컨 [1]ON [2]OFF : ");
+                String airconStr = sc.nextLine();
+
+                try {
+                    int airconNum = Integer.parseInt(airconStr);
+
+                    Aircon aircon = (Aircon) car;
+
+                    switch (airconNum) {
+                        case 1:
+                            aircon.airconOn();
+                            return;
+                        case 2:
+                            aircon.airconOff();
+                            return;
+                        default:
+                            System.out.println("잘못 입력하셨습니다.");
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("숫자를 입력해주세요.");
+                }
+            }
+        }
+    }
+
+    // 7. 오디오 ON/OFF
+// 7. 오디오 ON/OFF
+    public static void selectAudio(Scanner sc, Car car) {
+
+        if (car instanceof Audio) {
+
+            while (true) {
+                System.out.print(car.name + " 오디오 [1]ON [2]OFF : ");
+                String audioStr = sc.nextLine();
+
+                try {
+                    int audioNum = Integer.parseInt(audioStr);
+
+                    Audio audio = (Audio) car;
+
+                    switch (audioNum) {
+                        case 1:
+                            audio.audioOn();
+                            return;
+                        case 2:
+                            audio.audioOff();
+                            return;
+                        default:
+                            System.out.println("잘못 입력하셨습니다.");
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("숫자를 입력해주세요.");
+                }
+            }
+        }
+    }
+
+    // 8. 자율주행 ON/OFF
+    public static void selectAutoPilot(Scanner sc, Car car) {
+
+        if (car instanceof AutoPilot) {
+
+            while (true) {
+                System.out.print(car.name + " 자율주행 [1]ON [2]OFF : ");
+                String autoPilotStr = sc.nextLine();
+
+                try {
+                    int autoPilotNum = Integer.parseInt(autoPilotStr);
+
+                    AutoPilot autoPilot = (AutoPilot) car;
+
+                    switch (autoPilotNum) {
+                        case 1:
+                            autoPilot.autoPilotOn();
+                            return;
+                        case 2:
+                            autoPilot.autoPilotOff();
+                            return;
+                        default:
+                            System.out.println("잘못 입력하셨습니다.");
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("숫자를 입력해주세요.");
+                }
+            }
+        }
+    }
+
     // 결과 출력
     public static void printResult(Car car, int passengerCount, int distance, double weatherRate) {
         double totalCost = car.calculateTotalCost(passengerCount, distance);
@@ -164,5 +265,20 @@ public class CarMain {
         System.out.printf("총 비용 : %,.0f원%n", totalCost);
         System.out.println("총 주유 횟수 : " + refuelCount + "회");
         System.out.println("총 이동 시간 : " + hour + "시간 " + minute + "분");
+
+        if (car instanceof Aircon) {
+            Aircon aircon = (Aircon) car;
+            System.out.println(car.name + " 에어컨 : " + (aircon.isAirconOn() ? "ON" : "OFF"));
+        }
+
+        if (car instanceof Audio) {
+            Audio audio = (Audio) car;
+            System.out.println(car.name + " 오디오 : " + (audio.isAudioOn() ? "ON" : "OFF"));
+        }
+
+        if (car instanceof AutoPilot) {
+            AutoPilot autoPilot = (AutoPilot) car;
+            System.out.println(car.name + " 자율주행 : " + (autoPilot.isAutoPilotOn() ? "ON" : "OFF"));
+        }
     }
 }

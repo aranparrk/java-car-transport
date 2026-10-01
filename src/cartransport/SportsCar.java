@@ -1,13 +1,16 @@
 package cartransport;
 
-public class SportsCar extends Car {
-    private static final int BASIC_SPEED = 250;
+public class SportsCar extends Car implements Aircon, Audio {
+    private static final int BASE_SPEED = 250;
+    private static final int BASE_FUEL_EFFICIENCY = 8;
+    private boolean audioOn;
+    private boolean airconOn;
 
     public SportsCar(String name) {
         super(name);
 
-        speed = BASIC_SPEED;
-        fuelEfficiency = 8;
+        speed = BASE_SPEED;
+        fuelEfficiency = BASE_FUEL_EFFICIENCY;
         fuelTankSize = 30;
         seatCount = 2;
 
@@ -17,9 +20,45 @@ public class SportsCar extends Car {
     public void setMode(boolean isOn) {
 
         if (isOn) {
-            speed = (int)(BASIC_SPEED * 1.2);
+            speed = (int)(BASE_SPEED * 1.2);
         } else {
-            speed = BASIC_SPEED;
+            speed = BASE_SPEED;
         }
+    }
+
+    @Override
+    public void airconOn() {
+        System.out.println("Aircon On");
+        fuelEfficiency = (int)(BASE_FUEL_EFFICIENCY * 0.95);
+        airconOn = true;
+    }
+
+    @Override
+    public void airconOff() {
+        System.out.println("Aircon Off");
+        fuelEfficiency = BASE_FUEL_EFFICIENCY;
+        airconOn = false;
+    }
+
+    @Override
+    public boolean isAirconOn() {
+        return airconOn;
+    }
+
+    @Override
+    public void audioOn() {
+        System.out.println("Audio On");
+        audioOn = true;
+    }
+
+    @Override
+    public void audioOff() {
+        System.out.println("Audio Off");
+        audioOn = false;
+    }
+
+    @Override
+    public boolean isAudioOn() {
+        return audioOn;
     }
 }
